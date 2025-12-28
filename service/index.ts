@@ -1,23 +1,72 @@
-const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT as string
-import request, { gql } from 'graphql-request'
+// lib/getBlogs.ts (server)
+export async function getBlogs() {
+	const res = await fetch(process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT!, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			query: `
+        query {
+          blogs {
+            title
+            slug
+            description
+            image { url }
+            author { name }
+          }
+        }
+      `,
+		}),
+		next: { revalidate: 60 }, // 60 soniyada 1 marta yangilanadi
+	})
 
-export const getBlogs = async () => {
-	const query = gql`
-		query MyQuery {
-			blogs {
-				title
-				slug
-				description
-				image {
-					url
-				}
-				author {
-					name
-				}
-			}
-		}
-	`
+	const json = await res.json()
+	return json.data.blogs
+}
 
-	const data = await request(graphqlAPI, query)
-	return data
+export async function getProjects() {
+	const res = await fetch(process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT!, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			query: `
+        query {
+          projects {
+    projectName
+    description
+    image {
+      url
+    }
+    liveDemoLink
+    codeLink
+    stacks {
+      stackName
+    }
+  }
+        }
+      `,
+		}),
+		next: { revalidate: 60 }, // 60 soniyada 1 marta yangilanadi
+	})
+
+	const json = await res.json()
+	return json.data.projects
+}
+
+export async function getProject(slug: string) {
+	const res = await fetch(process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT!, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			query: `
+        query {
+          project {
+  }
+}
+      `,
+		}),
+		next: { revalidate: 60 }, // 60 soniyada 1 marta yangilanadi
+	})
+
+	const json = await res.json()
+	return json.data.project
 }
