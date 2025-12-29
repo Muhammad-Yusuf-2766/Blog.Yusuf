@@ -6,12 +6,12 @@ const container = {
 	hidden: { opacity: 0 },
 	show: {
 		opacity: 1,
-		transition: { staggerChildren: 0.2, delayChildren: 0.1 },
+		transition: { staggerChildren: 0.2, delayChildren: 0.2 },
 	},
 }
 
 const item: Variants = {
-	hidden: { opacity: 0, y: 18, x: 0 },
+	hidden: { opacity: 0, y: 25, x: 50 },
 	show: {
 		opacity: 1,
 		y: 0,

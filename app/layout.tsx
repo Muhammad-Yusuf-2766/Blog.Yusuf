@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import type React from 'react'
 // import { Analytics } from "@vercel/analytics/next"
-import { Navbar } from '@/components/navbar'
+import { Navbar } from '@/components/shared/navbar'
 import { LanguageProvider } from '@/contexts/language-context'
 import { ThemeProvider } from '@/contexts/theme-context'
 import './globals.css'

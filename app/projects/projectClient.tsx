@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/accordion'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { SparklesCore } from '@/components/ui/sparkles'
 import { useLanguage } from '@/contexts/language-context'
 import { ExternalLink, Github } from 'lucide-react'
 import Image from 'next/image'
@@ -23,16 +24,24 @@ type Project = {
 	stacks: [{ stackName: string }]
 }
 
-export default function ProjectsClient({
-	allProjects,
-}: {
-	allProjects: Project[]
-}) {
+export function SparklesPreview() {
 	const { t } = useLanguage()
 
 	return (
-		<main className='min-h-screen'>
-			<section className='bg-muted/30 py-16'>
+		<div className='h-full relative w-full bg-transparent flex flex-col items-center justify-center overflow-hidden rounded-md'>
+			<div className='w-full absolute inset-0 h-screen'>
+				<SparklesCore
+					id='tsparticlesfullpage'
+					background='transparent'
+					minSize={0.6}
+					maxSize={1.4}
+					particleDensity={100}
+					className='w-full h-full'
+					particleColor='#FFFFFF'
+				/>
+			</div>
+			{/* Content Section */}
+			<section className='py-16'>
 				<div className='container mx-auto px-4'>
 					<h1 className='text-4xl md:text-5xl font-bold text-center mb-4'>
 						{t('nav.projects')}
@@ -43,9 +52,23 @@ export default function ProjectsClient({
 					</p>
 				</div>
 			</section>
+		</div>
+	)
+}
 
-			<section className='container mx-auto px-4 py-16 max-w-4xl'>
-				<Accordion type='single' collapsible className='space-y-4'>
+export default function ProjectsClient({
+	allProjects,
+}: {
+	allProjects: Project[]
+}) {
+	const { t } = useLanguage()
+
+	return (
+		<main className='min-h-screen'>
+			<SparklesPreview />
+
+			<section className='py-16 w-full grid grid-cols-4'>
+				<Accordion type='single' collapsible className='space-y-4 col-span-2'>
 					{allProjects.map((project, index) => {
 						const liveUrl =
 							project.liveDemoLink?.startsWith('http://') ||

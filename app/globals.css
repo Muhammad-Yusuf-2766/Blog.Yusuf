@@ -121,7 +121,7 @@
 		@apply border-border outline-ring/50;
 	}
 	body {
-		@apply bg-background text-foreground min-md:px-24;
+		@apply bg-background text-foreground md:px-24;
 	}
 }
 

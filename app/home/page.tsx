@@ -3,16 +3,7 @@
 
 import { Reveal, RevealItem } from '@/components/shared/motionRevel'
 import { Button } from '@/components/ui/button'
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from '@/components/ui/card'
 import { useLanguage } from '@/contexts/language-context'
-import { useMotionWrapper } from '@/hooks/useMotionCard'
 import gsap from 'gsap'
 import { MotionPathPlugin } from 'gsap/all'
 import { ArrowRight } from 'lucide-react'
@@ -32,72 +23,8 @@ interface BlogPost {
 	}
 }
 
-function MotionCard({ post }: { post: BlogPost }) {
-	const { ref, onMouseMove, onMouseLeave } = useMotionWrapper<HTMLDivElement>({
-		maxTilt: 8,
-	})
-
-	return (
-		<div
-			ref={ref}
-			onMouseMove={onMouseMove}
-			onMouseLeave={onMouseLeave}
-			style={{ transformStyle: 'preserve-3d' }}
-		>
-			<Card
-				id='card'
-				className='overflow-hidden hover:shadow-lg transition-shadow h-full'
-			>
-				<div className='relative h-48 w-full'>
-					<Image
-						src={post.image.url || '/placeholder.svg'}
-						alt={post.title}
-						fill
-						className='object-cover'
-					/>
-				</div>
-				<CardHeader>
-					<CardTitle className='line-clamp-2'>{post.title}</CardTitle>
-					<CardDescription>Published by {post.author.name}</CardDescription>
-				</CardHeader>
-				<CardContent>
-					<p className='text-muted-foreground line-clamp-3'>
-						{post.description}
-					</p>
-				</CardContent>
-				<CardFooter>
-					<Link href={`/blogs/${post.slug}`}>
-						<Button variant='ghost' size='sm'>
-							Read More <ArrowRight className='ml-2 h-4 w-4' />
-						</Button>
-					</Link>
-				</CardFooter>
-			</Card>
-		</div>
-	)
-}
-
 export default function HomeClient({ blogs }: { blogs: BlogPost[] }) {
 	const { t } = useLanguage()
-
-	const container = {
-		hidden: {},
-		show: {
-			transition: {
-				staggerChildren: 0.2,
-				delayChildren: 0.2,
-			},
-		},
-	}
-
-	const item = {
-		hidden: { opacity: 0, y: 30 },
-		show: {
-			opacity: 1,
-			y: 0,
-			transition: { duration: 0.9, ease: 'easeInOut' as any },
-		},
-	}
 
 	gsap.registerPlugin(MotionPathPlugin)
 
@@ -180,7 +107,7 @@ export default function HomeClient({ blogs }: { blogs: BlogPost[] }) {
 			</Reveal>
 
 			{/* Recent Blog Posts Section */}
-			<section className='py-16 border-t '>
+			{/* <section className='py-16 border-t '>
 				<div className='container mx-auto px-4'>
 					<div className='flex items-center justify-between mb-8'>
 						<h2 className='text-3xl font-bold'>Recent {t('nav.blogs')}</h2>
@@ -201,7 +128,7 @@ export default function HomeClient({ blogs }: { blogs: BlogPost[] }) {
 						</div>
 					</Reveal>
 				</div>
-			</section>
+			</section> */}
 		</main>
 	)
 }
