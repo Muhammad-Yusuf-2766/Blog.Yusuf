@@ -25,10 +25,11 @@ export function Navbar() {
 	const { theme, toggleTheme } = useTheme()
 	const { language, setLanguage, t } = useLanguage()
 	const navlinks = [
-		{ name: t('nav.about'), path: '/about', icon: Book },
-		{ name: t('nav.blogs'), path: '/blogs', icon: Notebook },
-		{ name: t('nav.projects'), path: '/projects', icon: FolderArchive },
-		{ name: t('nav.contact'), path: '/contact', icon: Contact },
+		{ name: t('nav.about'), path: '/#about', icon: Book },
+		{ name: t('nav.projects'), path: '/#projects', icon: FolderArchive },
+
+		{ name: t('nav.blogs'), path: '/#blogs', icon: Notebook },
+		{ name: t('nav.contact'), path: '/#contact', icon: Contact },
 	]
 
 	return (

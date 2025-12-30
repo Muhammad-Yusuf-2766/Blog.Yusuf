@@ -1,24 +1,28 @@
 'use client'
 
 import { Reveal, RevealItem } from '@/components/shared/motionRevel'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { useLanguage } from '@/contexts/language-context'
-import { animate, motion, useInView } from 'framer-motion'
-import { Code, Lightbulb, Rocket, Users } from 'lucide-react'
+import { useTheme } from '@/contexts/theme-context'
+import { useMotionWrapper } from '@/hooks/useMotionCard'
+import { cn } from '@/lib/utils'
+import { motion } from 'framer-motion'
+import { Code, Download, Lightbulb, Rocket, Users } from 'lucide-react'
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 export default function AboutPage() {
 	const { t } = useLanguage()
 
-	const skills = [
-		{ name: 'Next.js', level: 90 },
-		{ name: 'React', level: 95 },
-		{ name: 'TypeScript', level: 85 },
-		{ name: 'Node.js', level: 80 },
-		{ name: 'Tailwind CSS', level: 90 },
-		{ name: 'PostgreSQL', level: 75 },
-	]
+	// const skills = [
+	// 	{ name: 'Next.js', level: 90 },
+	// 	{ name: 'React', level: 95 },
+	// 	{ name: 'TypeScript', level: 85 },
+	// 	{ name: 'Node.js', level: 80 },
+	// 	{ name: 'Tailwind CSS', level: 90 },
+	// 	{ name: 'PostgreSQL', level: 75 },
+	// ]
 
 	const values = [
 		{
@@ -43,11 +47,25 @@ export default function AboutPage() {
 		},
 	]
 
+	const techs = [
+		{
+			name: 'Next.js',
+			src: '/nextdotjs.svg',
+		},
+		{ name: 'React', src: '/react.svg' },
+		{ name: 'TypeScript', src: '/typescript.svg' },
+		{ name: 'Tailwind', src: '/tailwindcss.svg' },
+		{ name: 'Express.js', src: '/express.svg' },
+		{ name: 'Node.js', src: '/nodedotjs.svg' },
+		{ name: 'MongoDB', src: '/mongodb.svg' },
+		{ name: 'PostgreSQL', src: '/postgresql.svg' },
+	]
+
 	return (
 		<main className='min-h-screen'>
 			<Reveal>
 				<RevealItem>
-					<section className='bg-muted/30 py-16'>
+					<section className='bg-muted/60 rounded-md py-16'>
 						<div className='container mx-auto px-4'>
 							<h1 className='text-4xl md:text-5xl font-bold text-center mb-4'>
 								{t('nav.about')}
@@ -63,15 +81,17 @@ export default function AboutPage() {
 				<RevealItem>
 					<section className='container mx-auto px-4 py-16'>
 						<div className='grid md:grid-cols-2 gap-12 items-center mb-16'>
-							<div className='relative w-full h-100 rounded-lg overflow-hidden'>
-								<Image
-									src='/my doc picture.jpg'
-									alt='Profile'
-									fill
-									className='object-contain'
-									priority
-								/>
-							</div>
+							<MotionCard>
+								<div className='relative w-full h-100 overflow-hidden'>
+									<Image
+										src='/my doc picture.jpg'
+										alt='Profile'
+										fill
+										className='object-contain'
+										priority
+									/>
+								</div>
+							</MotionCard>
 
 							<div className='space-y-4'>
 								<h2 className='text-3xl font-bold'>Hi, I'm Mukhammad Yusuf</h2>
@@ -92,6 +112,10 @@ export default function AboutPage() {
 									articles, contributing to open-source projects, or mentoring
 									aspiring developers.
 								</p>
+								<Button className='mt-2 p-5'>
+									CV donwload
+									<Download />
+								</Button>
 							</div>
 						</div>
 
@@ -99,10 +123,9 @@ export default function AboutPage() {
 							<h2 className='text-3xl font-bold mb-8 text-center'>
 								Skills & Technologies
 							</h2>
-							<div className='max-w-3xl mx-auto space-y-4'>
-								{skills.map(skill => (
-									<SkillProgress key={skill.name} skill={skill} />
-								))}
+							<div className='mx-auto space-y-4'>
+								{/* <TechMarquee items={techs} speed={28} /> */}
+								<TechBouncyGrid items={techs} />
 							</div>
 						</div>
 
@@ -135,43 +158,122 @@ export default function AboutPage() {
 	)
 }
 
-type Skill = { name: string; level: number }
-
-export function SkillProgress({ skill }: { skill: Skill }) {
-	const ref = useRef<HTMLDivElement | null>(null)
-	const isInView = useInView(ref, { amount: 0.6, once: true })
-
-	const [count, setCount] = useState(0)
-
-	useEffect(() => {
-		if (!isInView) return
-
-		const controls = animate(0, skill.level, {
-			duration: 3,
-			ease: 'easeOut',
-			onUpdate: latest => setCount(Math.round(latest)),
-		})
-
-		return () => controls.stop()
-	}, [isInView, skill.level])
+export function MotionCard({ children }: { children: React.ReactNode }) {
+	const { ref, onMouseMove, onMouseLeave } = useMotionWrapper<HTMLDivElement>({
+		maxTilt: 8,
+	})
 
 	return (
-		<div ref={ref}>
-			<div className='flex justify-between mb-2'>
-				<span className='font-medium'>{skill.name}</span>
+		<div
+			ref={ref}
+			onMouseMove={onMouseMove}
+			onMouseLeave={onMouseLeave}
+			style={{ transformStyle: 'preserve-3d' }}
+			className=''
+		>
+			{children}
+		</div>
+	)
+}
 
-				{/* number count-up */}
-				<span className='text-muted-foreground tabular-nums'>{count}%</span>
-			</div>
+// export function SkillProgress({ skill }: { skill: Skill }) {
+// 	const ref = useRef<HTMLDivElement | null>(null)
+// 	const isInView = useInView(ref, { amount: 0.6, once: true })
 
-			<div className='h-2 bg-muted rounded-full overflow-hidden'>
-				{/* bar grow */}
-				<motion.div
-					className='h-full bg-primary'
-					initial={{ width: 0 }}
-					animate={isInView ? { width: `${skill.level}%` } : { width: 0 }}
-					transition={{ duration: 1.2, ease: 'easeOut' }}
-				/>
+// 	const [count, setCount] = useState(0)
+
+// 	useEffect(() => {
+// 		if (!isInView) return
+
+// 		const controls = animate(0, skill.level, {
+// 			duration: 3,
+// 			ease: 'easeOut',
+// 			onUpdate: latest => setCount(Math.round(latest)),
+// 		})
+
+// 		return () => controls.stop()
+// 	}, [isInView, skill.level])
+
+// 	return (
+// 		<div ref={ref}>
+// 			<div className='flex justify-between mb-2'>
+// 				<span className='font-medium'>{skill.name}</span>
+
+// 				{/* number count-up */}
+// 				<span className='text-muted-foreground tabular-nums'>{count}%</span>
+// 			</div>
+
+// 			<div className='h-2 bg-muted rounded-full overflow-hidden'>
+// 				{/* bar grow */}
+// 				<motion.div
+// 					className='h-full bg-primary'
+// 					initial={{ width: 0 }}
+// 					animate={isInView ? { width: `${skill.level}%` } : { width: 0 }}
+// 					transition={{ duration: 1.2, ease: 'easeOut' }}
+// 				/>
+// 			</div>
+// 		</div>
+// 	)
+// }
+
+type Tech = { name: string; src: string }
+
+export function TechBouncyGrid({
+	items,
+	className,
+	intervalMs = 300,
+}: {
+	items: Tech[]
+	className?: string
+	intervalMs?: number
+}) {
+	const [activeIndex, setActiveIndex] = useState(0)
+	const { theme } = useTheme()
+
+	useEffect(() => {
+		if (!items.length) return
+		const id = setInterval(() => {
+			setActiveIndex(i => (i + 1) % items.length)
+		}, intervalMs)
+		return () => clearInterval(id)
+	}, [intervalMs, items.length])
+
+	return (
+		<div
+			className={cn(
+				'relative w-full overflow-hidden rounded-xl border bg-card/40 backdrop-blur p-6',
+				className
+			)}
+		>
+			<div className='flex justify-between flex-wrap max-md:justify-center'>
+				{items.map((t, idx) => {
+					const active = idx === activeIndex
+
+					return (
+						<motion.div
+							key={t.name}
+							className='group flex flex-col gap-3 items-center px-4 py-3'
+							animate={
+								active
+									? { y: [0, -15, 0], scale: [1, 1.3, 1] }
+									: { y: 0, scale: 1 }
+							}
+							transition={{ duration: 0.55, ease: 'easeOut' }}
+						>
+							<div className='relative h-7 w-7'>
+								<Image
+									src={t.src}
+									alt={t.name}
+									fill
+									className={cn(`object-contain`, theme === 'dark' && 'invert')}
+								/>
+							</div>
+							<span className='text-sm text-muted-foreground group-hover:text-foreground transition-colors'>
+								{t.name}
+							</span>
+						</motion.div>
+					)
+				})}
 			</div>
 		</div>
 	)

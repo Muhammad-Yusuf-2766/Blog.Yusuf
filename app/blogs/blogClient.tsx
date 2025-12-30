@@ -88,7 +88,7 @@ export default function BlogClient({ allBlogs }: Props) {
 
 	return (
 		<main className='min-h-screen'>
-			<section className='bg-muted/30 py-12'>
+			<section className='bg-muted/60 rounded-md py-12'>
 				<div className='container mx-auto px-4'>
 					<h1 className='text-4xl md:text-5xl font-bold text-center mb-4'>
 						Blog

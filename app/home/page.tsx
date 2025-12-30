@@ -82,7 +82,7 @@ export default function HomeClient({ blogs }: { blogs: BlogPost[] }) {
 											{t('nav.blogs')} <ArrowRight className='ml-2 h-4 w-4' />
 										</Button>
 									</Link>
-									<Link href='/contact'>
+									<Link href='/#contact'>
 										<Button size='lg' variant='outline'>
 											{t('nav.contact')}
 										</Button>

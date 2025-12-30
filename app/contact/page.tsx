@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { MovingButton } from '@/components/ui/moving-border'
 import { Textarea } from '@/components/ui/textarea'
 import { useLanguage } from '@/contexts/language-context'
 import { Mail, MapPin, Phone, Send } from 'lucide-react'
@@ -48,7 +49,7 @@ export default function ContactPage() {
 		<main className='min-h-screen'>
 			<Reveal>
 				<RevealItem>
-					<section className='bg-muted/30 py-16'>
+					<section className='bg-muted/60 rounded-md py-16'>
 						<div className='container mx-auto px-4'>
 							<h1 className='text-4xl md:text-5xl font-bold text-center mb-4'>
 								{t('nav.contact')}
@@ -132,66 +133,70 @@ export default function ContactPage() {
 							</div>
 
 							<div className='space-y-6'>
-								<Card>
-									<CardHeader>
-										<CardTitle>Contact Information</CardTitle>
-									</CardHeader>
-									<CardContent className='space-y-4'>
-										<div className='flex items-start gap-3'>
-											<div className='p-2 rounded-lg bg-primary/10 mt-1'>
-												<Mail className='h-5 w-5 text-primary' />
+								<MovingButton as={'div'}>
+									<Card className='w-full bg-card/50  backdrop-blur-lg'>
+										<CardHeader>
+											<CardTitle>Contact Information</CardTitle>
+										</CardHeader>
+										<CardContent className='space-y-4'>
+											<div className='flex items-start gap-3'>
+												<div className='p-2 rounded-lg bg-primary/10 mt-1'>
+													<Mail className='h-5 w-5 text-primary' />
+												</div>
+												<div>
+													<p className='font-medium'>Email</p>
+													<p className='text-sm text-muted-foreground'>
+														john.doe@example.com
+													</p>
+												</div>
 											</div>
-											<div>
-												<p className='font-medium'>Email</p>
-												<p className='text-sm text-muted-foreground'>
-													john.doe@example.com
-												</p>
-											</div>
-										</div>
 
-										<div className='flex items-start gap-3'>
-											<div className='p-2 rounded-lg bg-primary/10 mt-1'>
-												<Phone className='h-5 w-5 text-primary' />
+											<div className='flex items-start gap-3'>
+												<div className='p-2 rounded-lg bg-primary/10 mt-1'>
+													<Phone className='h-5 w-5 text-primary ' />
+												</div>
+												<div>
+													<p className='font-medium'>Phone</p>
+													<p className='text-sm text-muted-foreground'>
+														+1 (555) 123-4567
+													</p>
+												</div>
 											</div>
-											<div>
-												<p className='font-medium'>Phone</p>
-												<p className='text-sm text-muted-foreground'>
-													+1 (555) 123-4567
-												</p>
-											</div>
-										</div>
 
-										<div className='flex items-start gap-3'>
-											<div className='p-2 rounded-lg bg-primary/10 mt-1'>
-												<MapPin className='h-5 w-5 text-primary' />
+											<div className='flex items-start gap-3'>
+												<div className='p-2 rounded-lg bg-primary/10 mt-1'>
+													<MapPin className='h-5 w-5 text-primary' />
+												</div>
+												<div>
+													<p className='font-medium'>Location</p>
+													<p className='text-sm text-muted-foreground'>
+														San Francisco, CA
+													</p>
+												</div>
 											</div>
-											<div>
-												<p className='font-medium'>Location</p>
-												<p className='text-sm text-muted-foreground'>
-													San Francisco, CA
-												</p>
-											</div>
-										</div>
-									</CardContent>
-								</Card>
+										</CardContent>
+									</Card>
+								</MovingButton>
 
-								<Card>
-									<CardHeader>
-										<CardTitle>Office Hours</CardTitle>
-									</CardHeader>
-									<CardContent className='space-y-2'>
-										<div className='flex justify-between'>
-											<span className='text-muted-foreground'>
-												Monday - Friday
-											</span>
-											<span className='font-medium'>9:00 AM - 6:00 PM</span>
-										</div>
-										<div className='flex justify-between'>
-											<span className='text-muted-foreground'>Weekend</span>
-											<span className='font-medium'>Closed</span>
-										</div>
-									</CardContent>
-								</Card>
+								<MovingButton as={'div'} reverse>
+									<Card className='w-full bg-card/50  backdrop-blur-lg'>
+										<CardHeader>
+											<CardTitle>Office Hours</CardTitle>
+										</CardHeader>
+										<CardContent className='space-y-2'>
+											<div className='flex justify-between'>
+												<span className='text-muted-foreground'>
+													Monday - Friday
+												</span>
+												<span className='font-medium'>9:00 AM - 6:00 PM</span>
+											</div>
+											<div className='flex justify-between'>
+												<span className='text-muted-foreground'>Weekend</span>
+												<span className='font-medium'>Closed</span>
+											</div>
+										</CardContent>
+									</Card>
+								</MovingButton>
 							</div>
 						</div>
 					</section>

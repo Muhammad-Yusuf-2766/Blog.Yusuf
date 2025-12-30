@@ -44,8 +44,10 @@ export default function RootLayout({
 			<body className={`font-sans antialiased`}>
 				<ThemeProvider>
 					<LanguageProvider>
-						<Navbar />
-						{children}
+						<div className='md:px-24'>
+							<Navbar />
+							{children}
+						</div>
 					</LanguageProvider>
 				</ThemeProvider>
 				{/* <Analytics /> */}
