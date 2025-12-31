@@ -17,16 +17,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 
-interface BlogPost {
+type BlogPost = {
 	title: string
-	description: string
 	slug: string
-	author: {
-		name: string
-	}
-	image: {
-		url: string
-	}
+	description: string
+	image?: { url: string } | null
+	author?: { name: string } | null
+	publishedAt?: string | null
+	content?: { html: string } | null
 }
 
 interface Props {
@@ -51,15 +49,17 @@ function MotionCard({ post }: { post: BlogPost }) {
 			>
 				<div className='relative h-48 w-full'>
 					<Image
-						src={post.image.url || '/placeholder.svg'}
-						alt={post.title}
+						src={post.image?.url ?? '/placeholder.svg'}
+						alt={post.title ?? 'Blog cover'}
 						fill
 						className='object-cover'
 					/>
 				</div>
 				<CardHeader>
 					<CardTitle className='line-clamp-2'>{post.title}</CardTitle>
-					<CardDescription>Published by {post.author.name}</CardDescription>
+					<CardDescription>
+						Published by {post.author?.name ?? 'Unknown'}
+					</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<p className='text-muted-foreground line-clamp-3'>
@@ -67,7 +67,7 @@ function MotionCard({ post }: { post: BlogPost }) {
 					</p>
 				</CardContent>
 				<CardFooter>
-					<Link href={`/blogs/${post.slug}`}>
+					<Link href={post.slug ? `/blogs/${post.slug}` : '/blogs'}>
 						<Button variant='ghost' size='sm'>
 							Read More <ArrowRight className='ml-2 h-4 w-4' />
 						</Button>
@@ -82,11 +82,13 @@ export default function BlogClient({ allBlogs }: Props) {
 	const [searchQuery, setSearchQuery] = useState('')
 	const { t } = useLanguage()
 
-	const filteredPosts = allBlogs.filter(
-		post =>
-			post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			post.description.toLowerCase().includes(searchQuery.toLowerCase())
-	)
+	const filteredPosts = allBlogs.filter(post => {
+		const title = (post.title ?? '').toLowerCase()
+		const desc = (post.description ?? '').toLowerCase()
+		const q = searchQuery.toLowerCase()
+
+		return title.includes(q) || desc.includes(q)
+	})
 
 	return (
 		<main className='min-h-screen'>
