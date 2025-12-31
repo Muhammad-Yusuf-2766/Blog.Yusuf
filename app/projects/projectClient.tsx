@@ -56,8 +56,7 @@ export function SparklesPreview() {
 						{t('nav.projects')}
 					</h1>
 					<p className='text-center text-muted-foreground max-w-2xl mx-auto'>
-						A collection of projects I've built, showcasing my skills and
-						passion for creating amazing web experiences
+						{t('projects.descr')}
 					</p>
 				</div>
 			</section>
@@ -74,7 +73,7 @@ export default function ProjectsClient({
 		<main className='min-h-screen'>
 			<SparklesPreview />
 
-			<section className='py-16 w-full grid grid-cols-4 gap-x-10'>
+			<section className='py-16 w-full grid grid-cols-4 md:gap-x-10 px-4 max-md:grid-cols-1 gap-y-5'>
 				<Accordion type='single' collapsible className='space-y-4 col-span-2'>
 					{allProjects.map((project, index) => {
 						const liveUrl =
@@ -187,17 +186,21 @@ export default function ProjectsClient({
 						)
 					})}
 				</Accordion>
-				<div className='col-span-2 space-y-6 '>
+				<div
+					className='col-span-2 space-y-6 text-muted-foreground
+             transition-all duration-200 ease-in-out
+             hover:text-primary hover:translate-x-2 transform cursor-pointer'
+				>
 					<h2 className='text-3xl font-bold'>Description</h2>
-					<p className='text-muted-foreground leading-relaxed flex gap-x-5 hover:text-white transition-all ease-in'>
+					<p className=' leading-relaxed flex gap-x-5 transition-all ease-in'>
 						<Book size={35} /> Here you can learn about the projects I have
 						done, see their drawings.
 					</p>
-					<p className='text-muted-foreground leading-relaxed flex gap-x-5 hover:text-white transition-all ease-in'>
+					<p className=' leading-relaxed flex gap-x-5 transition-all ease-in'>
 						<ListVideo size={35} /> You can also visit the project in real time
 						via the live-demo link.
 					</p>
-					<p className='text-muted-foreground leading-relaxed flex gap-x-5 hover:text-white transition-all ease-in'>
+					<p className=' leading-relaxed flex gap-x-5 transition-all ease-in'>
 						<Code size={35} /> You can also view, analyze, and download the
 						source code of the entire project via the Code button.
 					</p>

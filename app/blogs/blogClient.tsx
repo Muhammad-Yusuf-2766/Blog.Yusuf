@@ -10,6 +10,7 @@ import {
 	CardTitle,
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { useLanguage } from '@/contexts/language-context'
 import { useMotionWrapper } from '@/hooks/useMotionCard'
 import { ArrowRight, Search } from 'lucide-react'
 import Image from 'next/image'
@@ -79,6 +80,7 @@ function MotionCard({ post }: { post: BlogPost }) {
 
 export default function BlogClient({ allBlogs }: Props) {
 	const [searchQuery, setSearchQuery] = useState('')
+	const { t } = useLanguage()
 
 	const filteredPosts = allBlogs.filter(
 		post =>
@@ -91,10 +93,10 @@ export default function BlogClient({ allBlogs }: Props) {
 			<section className='bg-muted/60 rounded-md py-12'>
 				<div className='container mx-auto px-4'>
 					<h1 className='text-4xl md:text-5xl font-bold text-center mb-4'>
-						Blog
+						{t('nav.blogs')}
 					</h1>
 					<p className='text-center text-muted-foreground mb-8 max-w-2xl mx-auto'>
-						Explore articles about web development, programming, and technology
+						{t('blogs.descr')}
 					</p>
 
 					<div className='max-w-xl mx-auto relative'>
@@ -113,9 +115,7 @@ export default function BlogClient({ allBlogs }: Props) {
 			<section className='container mx-auto px-4 py-12'>
 				{filteredPosts.length === 0 ? (
 					<div className='text-center py-16'>
-						<p className='text-muted-foreground'>
-							No blog posts found matching your search.
-						</p>
+						<p className='text-muted-foreground'>{t('blogs.noPosts')}</p>
 					</div>
 				) : (
 					<div className='grid md:grid-cols-2 lg:grid-cols-3 gap-6'>

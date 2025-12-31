@@ -3,10 +3,10 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import type React from 'react'
 // import { Analytics } from "@vercel/analytics/next"
 import { Navbar } from '@/components/shared/navbar'
+import { Toaster } from '@/components/ui/sonner'
 import { LanguageProvider } from '@/contexts/language-context'
 import { ThemeProvider } from '@/contexts/theme-context'
 import './globals.css'
-
 const _geist = Geist({ subsets: ['latin'] })
 const _geistMono = Geist_Mono({ subsets: ['latin'] })
 
@@ -47,6 +47,18 @@ export default function RootLayout({
 						<div className='md:px-24'>
 							<Navbar />
 							{children}
+							<Toaster
+								richColors
+								toastOptions={{
+									duration: 4000,
+									style: {
+										fontFamily: _geist.style.fontFamily,
+										backgroundColor: 'var(--card)',
+										color: 'var(--foreground)',
+									},
+								}}
+								position='top-center'
+							/>
 						</div>
 					</LanguageProvider>
 				</ThemeProvider>

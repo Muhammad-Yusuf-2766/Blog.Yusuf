@@ -16,24 +16,37 @@ import { Label } from '@/components/ui/label'
 import { MovingButton } from '@/components/ui/moving-border'
 import { Textarea } from '@/components/ui/textarea'
 import { useLanguage } from '@/contexts/language-context'
-import { Mail, MapPin, Phone, Send } from 'lucide-react'
+import { Loader2, Mail, MapPin, Phone, Send } from 'lucide-react'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 export default function ContactPage() {
 	const { t } = useLanguage()
+	const [isLoading, setIsLoading] = useState(false)
 	const [formData, setFormData] = useState({
 		name: '',
 		email: '',
 		subject: '',
+		phone: '',
 		message: '',
 	})
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
+		setIsLoading(true)
 		e.preventDefault()
-		// TODO: Implement contact form submission (email service or Supabase)
-		console.log('[v0] Contact form submitted:', formData)
-		alert("Thank you for your message! I'll get back to you soon.")
-		setFormData({ name: '', email: '', subject: '', message: '' })
+		await fetch('/api/contact', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(formData),
+		}).then(async res => {
+			const data = await res.json()
+			if (!data.ok)
+				return toast.error(`Error: ${data.error || 'Unknown error'}`)
+			toast.success("Thank you for your message! I'll get back to you soon.")
+			setIsLoading(false)
+		})
+
+		setFormData({ name: '', email: '', subject: '', phone: '', message: '' })
 	}
 
 	const handleChange = (
@@ -55,8 +68,7 @@ export default function ContactPage() {
 								{t('nav.contact')}
 							</h1>
 							<p className='text-center text-muted-foreground max-w-2xl mx-auto'>
-								Have a question or want to work together? Feel free to reach
-								out!
+								{t('contact.descr')}
 							</p>
 						</div>
 					</section>
@@ -100,17 +112,33 @@ export default function ContactPage() {
 													/>
 												</div>
 											</div>
-											<div className='space-y-2'>
-												<Label htmlFor='subject'>Subject</Label>
-												<Input
-													id='subject'
-													name='subject'
-													placeholder='What is this about?'
-													value={formData.subject}
-													onChange={handleChange}
-													required
-												/>
+											<div className='grid md:grid-cols-2 gap-4'>
+												<div className='space-y-2'>
+													<Label htmlFor='subject'>Subject</Label>
+													<Input
+														id='subject'
+														name='subject'
+														placeholder='What is this about?'
+														value={formData.subject}
+														onChange={handleChange}
+														required
+													/>
+												</div>
+
+												<div className='space-y-2'>
+													<Label htmlFor='phone'>Phone</Label>
+													<Input
+														type='tel'
+														id='phone'
+														name='phone'
+														placeholder='Your phone number'
+														value={formData.phone}
+														onChange={handleChange}
+														required
+													/>
+												</div>
 											</div>
+
 											<div className='space-y-2'>
 												<Label htmlFor='message'>Message</Label>
 												<Textarea
@@ -123,9 +151,22 @@ export default function ContactPage() {
 													required
 												/>
 											</div>
-											<Button type='submit' className='w-full'>
-												<Send className='mr-2 h-4 w-4' />
-												Send Message
+											<Button
+												type='submit'
+												className='w-full'
+												disabled={isLoading}
+											>
+												{isLoading ? (
+													<>
+														<Loader2 className='mr-2 h-4 w-4 animate-spin' />
+														Sending...
+													</>
+												) : (
+													<>
+														<Send className='mr-2 h-4 w-4' />
+														Send Message
+													</>
+												)}
 											</Button>
 										</form>
 									</CardContent>

@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
 import { Code, Download, Lightbulb, Rocket, Users } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 export default function AboutPage() {
@@ -71,8 +72,7 @@ export default function AboutPage() {
 								{t('nav.about')}
 							</h1>
 							<p className='text-center text-muted-foreground max-w-2xl mx-auto'>
-								Learn more about me, my skills, and what drives my passion for
-								web development
+								{t('about.descr')}
 							</p>
 						</div>
 					</section>
@@ -94,34 +94,35 @@ export default function AboutPage() {
 							</MotionCard>
 
 							<div className='space-y-4'>
-								<h2 className='text-3xl font-bold'>Hi, I'm Mukhammad Yusuf</h2>
+								<h2 className='text-3xl font-bold'>
+									{t('hero.greeting')} I'm Mukhammad Yusuf
+								</h2>
 								<p className='text-muted-foreground leading-relaxed'>
-									I'm a passionate full-stack developer with over 2 years of
-									experience building modern web applications. I specialize in
-									React, Next.js, Node.js and TypeScript, creating scalable and
-									performant solutions.
+									{t('about.paragraph1')}
 								</p>
 								<p className='text-muted-foreground leading-relaxed'>
-									My journey in web development started with a curiosity about
-									how websites work, and it has grown into a career I love. I'm
-									constantly learning and exploring new technologies to stay at
-									the forefront of web development.
+									{t('about.paragraph2')}
 								</p>
 								<p className='text-muted-foreground leading-relaxed'>
-									When I'm not coding, you can find me writing technical
-									articles, contributing to open-source projects, or mentoring
-									aspiring developers.
+									{t('about.paragraph3')}
 								</p>
-								<Button className='mt-2 p-5'>
-									CV donwload
-									<Download />
-								</Button>
+
+								<Link
+									href='/CV/My_CV_Notion.pdf'
+									target='_blank'
+									rel='noopener noreferrer'
+								>
+									<Button className='mt-2 p-5 hover:translate-x-2 transform cursor-pointer transition-all duration-200 ease-in-out'>
+										CV donwload
+										<Download />
+									</Button>
+								</Link>
 							</div>
 						</div>
 
 						<div className='mb-16'>
 							<h2 className='text-3xl font-bold mb-8 text-center'>
-								Skills & Technologies
+								{t('skills.title')}
 							</h2>
 							<div className='mx-auto space-y-4'>
 								{/* <TechMarquee items={techs} speed={28} /> */}
@@ -131,13 +132,15 @@ export default function AboutPage() {
 
 						<div>
 							<h2 className='text-3xl font-bold mb-8 text-center'>
-								Core Values
+								{t('skills.core')}
 							</h2>
 							<div className='grid md:grid-cols-2 lg:grid-cols-4 gap-6'>
-								{values.map(value => (
-									<Card key={value.title}>
+								{values.map((value, idx) => (
+									// <MovingButton key={value.title} reverse={idx % 2 === 1}>
+									<Card className='group' key={value.title}>
+										{/* add to card: w-full bg-card/50  backdrop-blur-lg */}
 										<CardContent className='pt-6'>
-											<div className='flex flex-col items-center text-center space-y-4'>
+											<div className='flex flex-col items-center text-center space-y-4 group-hover:translate-x-2 transform cursor-pointer transition-all duration-200 ease-in-out'>
 												<div className='p-3 rounded-full bg-primary/10'>
 													<value.icon className='h-6 w-6 text-primary' />
 												</div>
@@ -148,6 +151,7 @@ export default function AboutPage() {
 											</div>
 										</CardContent>
 									</Card>
+									// </MovingButton>
 								))}
 							</div>
 						</div>
